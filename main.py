@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 # Etherscan API key (sign up at https://etherscan.io/apis)
 load_dotenv()
 ETHERSCAN_API_KEY = os.getenv("ETHERSCAN_API_KEY")
+print(ETHERSCAN_API_KEY)
 BASE_URL = 'https://api.etherscan.io/api'
 
 # Function to fetch newly deployed contracts
