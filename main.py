@@ -2,7 +2,7 @@ import requests
 import json
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 # Etherscan API key (sign up at https://etherscan.io/apis)
@@ -32,7 +32,7 @@ def format_for_logstash(contract_data, contract_details, creation_date, transact
     [risk_score, risk_reason] = assess_risk(contract_data, contract_details, creation_date, transaction_count)
 
     oldTimestamp = datetime.utcnow().isoformat()
-    timestamp = datetime.datetime.now(datetime.UTC)
+    timestamp = datetime.datetime.now(timezone.utc)
     print("oldTimeStamp is ",oldTimestamp)
     print("timestamp is ",timestamp)
 
