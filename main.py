@@ -31,10 +31,8 @@ def format_for_logstash(contract_data, contract_details, creation_date, transact
     #Get risk score & reason before building log event payload
     [risk_score, risk_reason] = assess_risk(contract_data, contract_details, creation_date, transaction_count)
 
-    oldTimestamp = datetime.utcnow().isoformat()
+    #oldTimestamp = datetime.utcnow().isoformat()
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
-    print("oldTimeStamp is ",oldTimestamp)
-    print("timestamp is ",timestamp)
 
     #build log event payload
     log_entry = {
