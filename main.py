@@ -12,7 +12,7 @@ BASE_URL = 'https://api.etherscan.io/v2/api?chainid=1'
 # Function to fetch newly deployed contracts
 def fetch_new_contracts(start_block=0, end_block='latest'):
     print("Fetching new contracts...")
-    url = f"{BASE_URL}?module=logs&action=getLogs&fromBlock={start_block}&toBlock={end_block}&address=0x0000000000000000000000000000000000000000&apikey={ETHERSCAN_API_KEY}"
+    url = f"{BASE_URL}&module=logs&action=getLogs&fromBlock={start_block}&toBlock={end_block}&address=0x0000000000000000000000000000000000000000&apikey={ETHERSCAN_API_KEY}"
     print("URL is ",url)
     response = requests.get(url)
     return response.json()
