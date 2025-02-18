@@ -34,7 +34,7 @@ def format_for_logstash(contract_data, contract_details, creation_date, transact
     oldTimestamp = datetime.utcnow().isoformat()
     timestamp = datetime.now(datetime.UTC)
     print("oldTimeStamp is ",oldTimestamp)
-    print("timestamp is "timestamp)
+    print("timestamp is ",timestamp)
 
     #build log event payload
     log_entry = {
