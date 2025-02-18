@@ -28,8 +28,10 @@ def fetch_contract_details(contract_address):
 
 # Function to format data for Logstash or Elasticsearch
 def format_for_logstash(contract_data, contract_details):
+    #Get risk score & reason before building log event payload
     [risk_score, risk_reason] = assess_risk(contract_data, contract_details)
-    
+
+    #build log event payload
     log_entry = {
         "timestamp": datetime.utcnow().isoformat(),
         "contract_address": contract_data.get("contractAddress"),
@@ -69,22 +71,28 @@ def assess_risk(contract_data, contract_details):
     if abi:
         for pattern in high_risk_patterns:
             if re.search(pattern, abi, re.IGNORECASE):
-                return "high"
+                #return "high"
+                risk_score = "High"
+                risk_reason = "Selfdestruct, delegeatecall or callcode found in ABI"
+                return [risk_score, risk_reason]
 
         for pattern in medium_risk_patterns:
             if re.search(pattern, abi, re.IGNORECASE):
                 risk_score = "medium"
-                risk_reason = "test1"
+                risk_reason = "Call, Approve, or transferFrom found in ABI"
 
     # 2 Creator Address Analysis (simplified example)
     known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
     if creator_address in known_scam_addresses:
-        return "high"
+        #return "high"
+        risk_score = "High"
+        risk_reason = "Known scam address found"
+        return [risk_score, risk_reason]
 
     # 3 Unverified Source Code
     if not contract_details.get("sourceCode"):
         risk_score = "medium" if risk_score == "low" else "high"
-        risk_reason = "test2"
+        risk_reason = "Source code not verified"
 
     # 4 Placeholder for transaction analysis (can be expanded later)
     # e.g., checking large mints, low liquidity, mixer usage, etc.
