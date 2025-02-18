@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import re
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -47,6 +48,44 @@ def send_to_logstash(data):
     headers = {'Content-Type': 'application/json'}
     response = requests.post(logstash_url, data=data, headers=headers)
     return response.status_code
+
+# Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
+def assess_risk(contract_data, contract_details):
+    high_risk_patterns = [r"selfdestruct", r"delegatecall", r"callcode"]
+    medium_risk_patterns = [r"call\(", r"approve\(.*, uint256\(.*-1\)\)", r"transferFrom"]
+    
+    # Default risk score
+    risk_score = "low"
+    
+    # Extract relevant data
+    abi = contract_details.get("result", "")
+    creator_address = contract_data.get("creatorAddress", "")
+    contract_address = contract_data.get("contractAddress", "")
+
+    # 1 ABI Analysis
+    if abi:
+        for pattern in high_risk_patterns:
+            if re.search(pattern, abi, re.IGNORECASE):
+                return "high"
+
+        for pattern in medium_risk_patterns:
+            if re.search(pattern, abi, re.IGNORECASE):
+                risk_score = "medium"
+
+    # 2 Creator Address Analysis (simplified example)
+    known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
+    if creator_address in known_scam_addresses:
+        return "high"
+
+    # 3 Unverified Source Code
+    if not contract_details.get("sourceCode"):
+        risk_score = "medium" if risk_score == "low" else "high"
+
+    # 4 Placeholder for transaction analysis (can be expanded later)
+    # e.g., checking large mints, low liquidity, mixer usage, etc.
+
+    return risk_score
+
 
 # Main function to orchestrate data fetching and processing
 def main():
