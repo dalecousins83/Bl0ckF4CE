@@ -86,7 +86,7 @@ def get_transaction_count(address):
         return None  # In case no data is found or error
 
 # Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
-def assess_risk(contract_data, contract_details):
+def assess_risk(contract_data, contract_details, contract_creation_date, transaction_count):
     
     high_risk_patterns = [r"selfdestruct", r"delegatecall", r"callcode"]
     medium_risk_patterns = [r"call\(", r"approve\(.*, uint256\(.*-1\)\)", r"transferFrom"]
