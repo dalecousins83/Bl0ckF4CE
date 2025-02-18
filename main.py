@@ -21,7 +21,6 @@ def fetch_new_contracts(start_block=0, end_block='latest'):
     return response.json()
 
 # Function to fetch contract details (e.g., transactions and function calls)
-#    url = f"{BASE_URL}?module=contract&action=getabi&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
 def fetch_contract_details(contract_address):
     url = f"{BASE_URL}&module=contract&action=getabi&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
     response = requests.get(url)
@@ -93,7 +92,7 @@ def main():
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
 
-    print(contracts_data)
+    #print(contracts_data)
     
     for contract in contracts_data['result']:
         contract_address = contract['address']
