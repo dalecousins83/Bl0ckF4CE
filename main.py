@@ -54,8 +54,49 @@ def send_to_logstash(data):
     response = requests.post(logstash_url, data=data, headers=headers)
     return response.status_code
 
+def get_creation_date(contract_address):
+    # Construct URL to fetch internal transactions
+    url = f"{BASE_URL}&module=account&action=txlistinternal&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
+    
+    response = requests.get(url)
+    data = response.json()
+
+    # Check if we got a valid response
+    if data["status"] == "1" and data["result"]:
+        # Assuming the first internal transaction is the contract creation
+        creation_tx = data["result"][0]
+        timestamp = int(creation_tx["timeStamp"])
+        creation_date = datetime.utcfromtimestamp(timestamp)
+        return creation_date
+    else:
+        return None  # In case no data is found or error
+
+def get_transaction_count(address):
+    # Construct URL to fetch the transaction count
+    url = f"{BASE_URL}&module=proxy&action=eth_getTransactionCount&address={address}&tag=latest&apikey={ETHERSCAN_API_KEY}"
+    
+    response = requests.get(url)
+    data = response.json()
+
+    # Check if we got a valid response
+    if "result" in data:
+        tx_count = int(data["result"], 16)  # Convert hex to int
+        return tx_count
+    else:
+        return None  # In case no data is found or error
+
 # Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details):
+    # Fetch the contract creation date (deployment date)
+    creation_date = get_creation_date(contract_address)
+    if not creation_date:
+        return "high"  # If creation date is not found, return high risk
+    
+    # Fetch the transaction count for the contract address
+    transaction_count = get_transaction_count(contract_address)
+    if transaction_count is None:
+        return "high"  # If transaction count is not available, return high risk
+    
     high_risk_patterns = [r"selfdestruct", r"delegatecall", r"callcode"]
     medium_risk_patterns = [r"call\(", r"approve\(.*, uint256\(.*-1\)\)", r"transferFrom"]
     
