@@ -28,13 +28,17 @@ def fetch_contract_details(contract_address):
 
 # Function to format data for Logstash or Elasticsearch
 def format_for_logstash(contract_data, contract_details):
+    [risk_score, risk_reason] = assess_risk(contract_data, contract_details)
+    
     log_entry = {
         "timestamp": datetime.utcnow().isoformat(),
         "contract_address": contract_data.get("contractAddress"),
         "creator_address": contract_data.get("creatorAddress"),
         "abi": contract_details.get("result"),
         "function_calls": contract_data.get("functionCalls"),  # You can customize this further
-        "risk_score": assess_risk(contract_data, contract_details),
+        #"risk_score": assess_risk(contract_data, contract_details),
+        "risk_score": ,
+        "risk_reason": ,
     }
     print("LOG ENTRY:")
     print(json.dumps(log_entry))
@@ -70,6 +74,7 @@ def assess_risk(contract_data, contract_details):
         for pattern in medium_risk_patterns:
             if re.search(pattern, abi, re.IGNORECASE):
                 risk_score = "medium"
+                risk_reason = "test1"
 
     # 2 Creator Address Analysis (simplified example)
     known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
@@ -79,11 +84,12 @@ def assess_risk(contract_data, contract_details):
     # 3 Unverified Source Code
     if not contract_details.get("sourceCode"):
         risk_score = "medium" if risk_score == "low" else "high"
+        risk_reason = "test2"
 
     # 4 Placeholder for transaction analysis (can be expanded later)
     # e.g., checking large mints, low liquidity, mixer usage, etc.
 
-    return risk_score
+    return [risk_score, risk_reason]
 
 
 # Main function to orchestrate data fetching and processing
