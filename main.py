@@ -54,6 +54,7 @@ def send_to_logstash(data):
     response = requests.post(logstash_url, data=data, headers=headers)
     return response.status_code
 
+# Function to get creation date of affected contract
 def get_creation_date(contract_address):
     # Construct URL to fetch internal transactions
     url = f"{BASE_URL}&module=account&action=txlistinternal&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
@@ -71,6 +72,7 @@ def get_creation_date(contract_address):
     else:
         return None  # In case no data is found or error
 
+# Function to get transaction count of affected contract
 def get_transaction_count(address):
     # Construct URL to fetch the transaction count
     url = f"{BASE_URL}&module=proxy&action=eth_getTransactionCount&address={address}&tag=latest&apikey={ETHERSCAN_API_KEY}"
@@ -164,13 +166,9 @@ def main():
 
         # Fetch the contract creation date (deployment date)
         creation_date = get_creation_date(contract_address)
-        #if not creation_date:
-        #    return "high"  # If creation date is not found, return high risk
     
         # Fetch the transaction count for the contract address
         transaction_count = get_transaction_count(contract_address)
-        #if transaction_count is None:
-        #    return "high"  # If transaction count is not available, return high risk
         
         # Format the data for Logstash
         logstash_data = format_for_logstash(contract, contract_details, creation_date, transaction_count)
