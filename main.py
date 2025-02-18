@@ -32,7 +32,7 @@ def format_for_logstash(contract_data, contract_details, creation_date, transact
     [risk_score, risk_reason] = assess_risk(contract_data, contract_details, creation_date, transaction_count)
 
     oldTimestamp = datetime.utcnow().isoformat()
-    timestamp = datetime.now(timezone.utc)
+    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
     print("oldTimeStamp is ",oldTimestamp)
     print("timestamp is ",timestamp)
 
