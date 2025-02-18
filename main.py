@@ -36,6 +36,7 @@ def format_for_logstash(contract_data, contract_details):
         "function_calls": contract_data.get("functionCalls"),  # You can customize this further
         "risk_score": "low",  # Implement logic for risk scoring
     }
+    print("LOG ENTRY:")
     print(json.dumps(log_entry))
     return json.dumps(log_entry)
 
@@ -66,12 +67,12 @@ def main():
         logstash_data = format_for_logstash(contract, contract_details)
         
         # Send to Logstash for indexing into ElasticSearch
-        status_code = send_to_logstash(logstash_data)
+        #status_code = send_to_logstash(logstash_data)
         
-        if status_code == 200:
-            print(f"Data sent successfully for contract: {contract_address}")
-        else:
-            print(f"Error sending data for contract: {contract_address} - Status Code: {status_code}")
+        #if status_code == 200:
+        #    print(f"Data sent successfully for contract: {contract_address}")
+        #else:
+        #    print(f"Error sending data for contract: {contract_address} - Status Code: {status_code}")
 
 if __name__ == "__main__":
     main()
