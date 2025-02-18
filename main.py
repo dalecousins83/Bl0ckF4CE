@@ -37,8 +37,8 @@ def format_for_logstash(contract_data, contract_details):
         "abi": contract_details.get("result"),
         "function_calls": contract_data.get("functionCalls"),  # You can customize this further
         #"risk_score": assess_risk(contract_data, contract_details),
-        "risk_score": ,
-        "risk_reason": ,
+        "risk_score": risk_score,
+        "risk_reason": risk_reason,
     }
     print("LOG ENTRY:")
     print(json.dumps(log_entry))
