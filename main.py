@@ -91,8 +91,21 @@ def assess_risk(contract_data, contract_details):
 
     # 3 Unverified Source Code
     if not contract_details.get("sourceCode"):
-        risk_score = "medium" if risk_score == "low" else "high"
-        risk_reason = "Source code not verified"
+        #risk_score = "medium" if risk_score == "low" else "high"
+        #risk_reason = "Source code not verified"
+        
+        # Risk assessment based on contract age and transactions
+        contract_age_days = (current_time - contract_creation_date).days
+        if contract_age_days < 30:  # Newly deployed contracts without code
+            risk_score = "high"
+            risk_reason = "Contract less than 30 days old"
+        elif transaction_count < 10:  # Low interactions
+            risk_score = "medium"
+            risk_reason = "Low contract interaction"
+        else:  # Older contracts without code
+            risk_score = "low"
+            risk_reason = "Contract greater than 30 days old and proven usage history"
+        
 
     # 4 Placeholder for transaction analysis (can be expanded later)
     # e.g., checking large mints, low liquidity, mixer usage, etc.
