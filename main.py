@@ -68,6 +68,7 @@ def get_creation_date(contract_address):
         creation_tx = data["result"][0]
         timestamp = int(creation_tx["timeStamp"])
         creation_date = datetime.utcfromtimestamp(timestamp)
+        print("Contract ",contract_address," created on ",creation_date)
         return creation_date
     else:
         return None  # In case no data is found or error
@@ -83,8 +84,10 @@ def get_transaction_count(address):
     # Check if we got a valid response
     if "result" in data:
         tx_count = int(data["result"], 16)  # Convert hex to int
+        print("Contract ",address," transaction count is ",tx_count)
         return tx_count
     else:
+        print("No transactions found for contract ",address)
         return None  # In case no data is found or error
 
 # Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
