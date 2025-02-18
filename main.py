@@ -11,6 +11,7 @@ BASE_URL = 'https://api.etherscan.io/api'
 
 # Function to fetch newly deployed contracts
 def fetch_new_contracts(start_block=0, end_block='latest'):
+    print("Fetching new contracts...")
     url = f"{BASE_URL}?module=logs&action=getLogs&fromBlock={start_block}&toBlock={end_block}&address=0x0000000000000000000000000000000000000000&apikey={ETHERSCAN_API_KEY}"
     response = requests.get(url)
     return response.json()
@@ -43,6 +44,7 @@ def send_to_logstash(data):
 
 # Main function to orchestrate data fetching and processing
 def main():
+    print("Running main()")
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
     
