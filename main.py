@@ -36,6 +36,7 @@ def format_for_logstash(contract_data, contract_details):
         "function_calls": contract_data.get("functionCalls"),  # You can customize this further
         "risk_score": "low",  # Implement logic for risk scoring
     }
+    print(json.dumps(log_entry))
     return json.dumps(log_entry)
 
 # Function to send data to Logstash (for local testing)
@@ -59,7 +60,7 @@ def main():
         
         # Fetch additional contract details (e.g., ABI, function calls)
         contract_details = fetch_contract_details(contract_address)
-        print("CONTRACT DETAILS: ", contract_details)
+        #print("CONTRACT DETAILS: ", contract_details)
         
         # Format the data for Logstash
         logstash_data = format_for_logstash(contract, contract_details)
