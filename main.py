@@ -62,10 +62,10 @@ def main():
         print("CONTRACT DETAILS: ", contract_details)
         
         # Format the data for Logstash
-        #logstash_data = format_for_logstash(contract, contract_details)
+        logstash_data = format_for_logstash(contract, contract_details)
         
         # Send to Logstash for indexing into ElasticSearch
-        #status_code = send_to_logstash(logstash_data)
+        status_code = send_to_logstash(logstash_data)
         
         if status_code == 200:
             print(f"Data sent successfully for contract: {contract_address}")
