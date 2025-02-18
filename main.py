@@ -33,7 +33,8 @@ def format_for_logstash(contract_data, contract_details, creation_date, transact
 
     #build log event payload
     log_entry = {
-        "timestamp": datetime.utcnow().isoformat(),
+        #"timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(datetime.UTC)
         "contract_address": contract_data.get("contractAddress"),
         "creator_address": contract_data.get("creatorAddress"),
         "abi": contract_details.get("result"),
