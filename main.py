@@ -61,10 +61,10 @@ def main():
         # Send to Logstash for indexing into ElasticSearch
         #status_code = send_to_logstash(logstash_data)
         
-        #if status_code == 200:
-        #    print(f"Data sent successfully for contract: {contract_address}")
-        #else:
-        #    print(f"Error sending data for contract: {contract_address} - Status Code: {status_code}")
+        if status_code == 200:
+            print(f"Data sent successfully for contract: {contract_address}")
+        else:
+            print(f"Error sending data for contract: {contract_address} - Status Code: {status_code}")
 
 if __name__ == "__main__":
     main()
