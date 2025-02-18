@@ -15,7 +15,7 @@ FACTORY_ADDRESS = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"  # Uniswap V2 Fac
 def fetch_new_contracts(start_block=0, end_block='latest'):
     print("Fetching new contracts...")
     url = f"{BASE_URL}&module=logs&action=getLogs&fromBlock={start_block}&toBlock={end_block}&address={FACTORY_ADDRESS}&apikey={ETHERSCAN_API_KEY}"
-    print("URL is ",url)
+    #print("URL is ",url)
     response = requests.get(url)
     return response.json()
 
@@ -55,10 +55,11 @@ def main():
     print(contracts_data)
     
     for contract in contracts_data['result']:
-        #contract_address = contract['address']
+        contract_address = contract['address']
         
         # Fetch additional contract details (e.g., ABI, function calls)
-        #contract_details = fetch_contract_details(contract_address)
+        contract_details = fetch_contract_details(contract_address)
+        print("CONTRACT DETAILS: ", contract_details)
         
         # Format the data for Logstash
         #logstash_data = format_for_logstash(contract, contract_details)
