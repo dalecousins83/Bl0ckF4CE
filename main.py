@@ -27,9 +27,9 @@ def fetch_contract_details(contract_address):
     return response.json()
 
 # Function to format data for Logstash or Elasticsearch
-def format_for_logstash(contract_data, contract_details):
+def format_for_logstash(contract_data, contract_details, creation_date, transaction_count):
     #Get risk score & reason before building log event payload
-    [risk_score, risk_reason] = assess_risk(contract_data, contract_details)
+    [risk_score, risk_reason] = assess_risk(contract_data, contract_details, creation_date, transaction_count)
 
     #build log event payload
     log_entry = {
@@ -87,15 +87,6 @@ def get_transaction_count(address):
 
 # Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details):
-    # Fetch the contract creation date (deployment date)
-    creation_date = get_creation_date(contract_address)
-    if not creation_date:
-        return "high"  # If creation date is not found, return high risk
-    
-    # Fetch the transaction count for the contract address
-    transaction_count = get_transaction_count(contract_address)
-    if transaction_count is None:
-        return "high"  # If transaction count is not available, return high risk
     
     high_risk_patterns = [r"selfdestruct", r"delegatecall", r"callcode"]
     medium_risk_patterns = [r"call\(", r"approve\(.*, uint256\(.*-1\)\)", r"transferFrom"]
@@ -170,9 +161,19 @@ def main():
         # Fetch additional contract details (e.g., ABI, function calls)
         contract_details = fetch_contract_details(contract_address)
         #print("CONTRACT DETAILS: ", contract_details)
+
+        # Fetch the contract creation date (deployment date)
+        creation_date = get_creation_date(contract_address)
+        #if not creation_date:
+        #    return "high"  # If creation date is not found, return high risk
+    
+        # Fetch the transaction count for the contract address
+        transaction_count = get_transaction_count(contract_address)
+        #if transaction_count is None:
+        #    return "high"  # If transaction count is not available, return high risk
         
         # Format the data for Logstash
-        logstash_data = format_for_logstash(contract, contract_details)
+        logstash_data = format_for_logstash(contract, contract_details, creation_date, transaction_count)
         
         # Send to Logstash for indexing into ElasticSearch
         #status_code = send_to_logstash(logstash_data)
