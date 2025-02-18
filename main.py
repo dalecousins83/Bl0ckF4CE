@@ -66,6 +66,8 @@ def assess_risk(contract_data, contract_details):
     abi = contract_details.get("result", "")
     creator_address = contract_data.get("creatorAddress", "")
     contract_address = contract_data.get("contractAddress", "")
+    source_code = contract_details.get("sourceCode", "")
+    current_time = datetime.utcnow()
 
     # 1 ABI Analysis
     if abi:
@@ -90,7 +92,7 @@ def assess_risk(contract_data, contract_details):
         return [risk_score, risk_reason]
 
     # 3 Unverified Source Code
-    if not contract_details.get("sourceCode"):
+    if not source_code:
         #risk_score = "medium" if risk_score == "low" else "high"
         #risk_reason = "Source code not verified"
         
