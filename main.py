@@ -47,9 +47,10 @@ def main():
     print("Running main()")
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
+
+    print(contracts_data)
     
     for contract in contracts_data['result']:
-        print("CONTRACT= ", contract)
         #contract_address = contract['address']
         
         # Fetch additional contract details (e.g., ABI, function calls)
