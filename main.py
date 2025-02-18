@@ -47,7 +47,8 @@ def main():
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
     
     for contract in contracts_data['result']:
-        contract_address = contract['address']
+        print "CONTRACT= ", contract
+        #contract_address = contract['address']
         
         # Fetch additional contract details (e.g., ABI, function calls)
         contract_details = fetch_contract_details(contract_address)
