@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 # Etherscan API key (sign up at https://etherscan.io/apis)
 load_dotenv()
 ETHERSCAN_API_KEY = os.getenv("ETHERSCAN_API_KEY")
-BASE_URL = 'https://api.etherscan.io/v2/api?chainid=100'
+BASE_URL = 'https://api.etherscan.io/v2/api?chainid=1'
 
 # Function to fetch newly deployed contracts
 def fetch_new_contracts(start_block=0, end_block='latest'):
@@ -17,8 +17,9 @@ def fetch_new_contracts(start_block=0, end_block='latest'):
     return response.json()
 
 # Function to fetch contract details (e.g., transactions and function calls)
+#    url = f"{BASE_URL}?module=contract&action=getabi&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
 def fetch_contract_details(contract_address):
-    url = f"{BASE_URL}?module=contract&action=getabi&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
+    url = f"{BASE_URL}&module=contract&action=getabi&address={contract_address}&apikey={ETHERSCAN_API_KEY}"
     response = requests.get(url)
     return response.json()
 
