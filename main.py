@@ -50,7 +50,8 @@ def format_for_logstash(contract_data, contract_details, contract_creator, creat
     #build log event payload
     log_entry = {
         "timestamp": timestamp,
-        "contract_address": contract_data.get("contractAddress"),
+        #"contract_address": contract_data.get("contractAddress"),
+        "contract_address": contract_data,
         "creator_address": contract_creator,
         "abi": contract_details.get("result"),
         "function_calls": contract_data.get("functionCalls"),  # You can customize this further
