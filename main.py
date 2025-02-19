@@ -119,6 +119,7 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     # Extract relevant data
     abi = contract_details.get("result", "")
     creator_address = contract_data.get("creatorAddress", "")
+    creator_address = contract_data['address']
     print("Creator address: ",contract_data)
     contract_address = contract_data.get("contractAddress", "")
     source_code = contract_details.get("sourceCode", "")
