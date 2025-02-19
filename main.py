@@ -107,6 +107,8 @@ def get_bad_addresses():
 
 # Function to assess risk of returned contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details, contract_creation_date, transaction_count):
+
+    print("Completing risk assessment...")
     
     high_risk_patterns = [r"selfdestruct", r"delegatecall", r"callcode"]
     medium_risk_patterns = [r"call\(", r"approve\(.*, uint256\(.*-1\)\)", r"transferFrom"]
@@ -117,6 +119,7 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     # Extract relevant data
     abi = contract_details.get("result", "")
     creator_address = contract_data.get("creatorAddress", "")
+    print("Creator address: ",creator_address)
     contract_address = contract_data.get("contractAddress", "")
     source_code = contract_details.get("sourceCode", "")
     current_time = datetime.utcnow()
