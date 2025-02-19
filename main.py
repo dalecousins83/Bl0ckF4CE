@@ -204,6 +204,7 @@ def main():
         print("CONTRACT DETAILS: ", contract_details['result'])
 
         # Get contract creator
+        print("Getting contract creator address")
         contract_creator = get_creator_address(contract_address)
 
         # Fetch the contract creation date (deployment date)
