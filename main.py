@@ -192,7 +192,7 @@ def main():
         
         # Fetch additional contract details (e.g., ABI, function calls)
         contract_details = fetch_contract_details(contract_address)
-        #print("CONTRACT DETAILS: ", contract_details)
+        print("CONTRACT DETAILS: ", contract_details)
 
         # Fetch the contract creation date (deployment date)
         creation_date = get_creation_date(contract_address)
@@ -201,7 +201,7 @@ def main():
         transaction_count = get_transaction_count(contract_address)
         
         # Format the data for Logstash
-        logstash_data = format_for_logstash(contract, contract_details, creation_date, transaction_count)
+        #logstash_data = format_for_logstash(contract, contract_details, creation_date, transaction_count)
         
         # Send to Logstash for indexing into ElasticSearch
         #status_code = send_to_logstash(logstash_data)
