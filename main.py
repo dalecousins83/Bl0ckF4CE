@@ -52,6 +52,7 @@ def format_for_logstash(contract_data, contract_details, contract_creator, creat
         abi_string = contract_details.get("result", "[]")  # Default to empty list if no ABI
         abi = json.loads(abi_string)  # Convert string to JSON object
     except json.JSONDecodeError:
+        print("Could not decode ABI JSON for contract",contract_data['address'])
         abi = []  # Fallback in case of error
     
     #build log event payload
