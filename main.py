@@ -176,7 +176,7 @@ def main():
     # Build address blacklist for risk assessment
     get_bad_addresses()
     print("Got bad address list...")
-    print(bad_addresses)
+    #print(bad_addresses)
     
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
