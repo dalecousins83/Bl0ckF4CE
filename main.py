@@ -63,7 +63,6 @@ def format_for_logstash(contract_data, contract_details, contract_creator, creat
         "creator_address": contract_creator,
         "abi": abi,
         "abi_functions": get_abi_function_names(abi),
-        "function_calls": contract_data.get("functionCalls"),  # You can customize this further
         #"risk_score": assess_risk(contract_data, contract_details),
         "risk_score": risk_score,
         "risk_reason": risk_reason,
