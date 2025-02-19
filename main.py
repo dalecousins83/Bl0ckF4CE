@@ -105,7 +105,7 @@ def get_bad_addresses():
     bad_addresses = response.json()
     return bad_addresses
 
-# Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
+# Function to assess risk of returned contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details, contract_creation_date, transaction_count):
     
     high_risk_patterns = [r"selfdestruct", r"delegatecall", r"callcode"]
@@ -139,7 +139,7 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     # 2 Creator Address Analysis (simplified example)
     # known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
     for bad_address in bad_addresses:
-        print(f"Checking creator address (",creator_address," against ",bad_address)
+        print(f"Checking creator address (",{creator_address}" against "{bad_address})
         if creator_address == bad_address['address']:
             #return "high"
             risk_score = "High"
