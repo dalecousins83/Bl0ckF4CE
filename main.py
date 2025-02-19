@@ -40,9 +40,9 @@ def get_creator_address(contract_address):
     return None  # Return None if no creator address is found
 
 # Function to format data for Logstash or Elasticsearch
-def format_for_logstash(contract_data, contract_details, creation_date, transaction_count):
+def format_for_logstash(contract_data, contract_details, contract_creator, creation_date, transaction_count):
     #Get risk score & reason before building log event payload
-    [risk_score, risk_reason] = assess_risk(contract_data, contract_details, creation_date, transaction_count)
+    [risk_score, risk_reason] = assess_risk(contract_data, contract_details, contract_creator, creation_date, transaction_count)
 
     #oldTimestamp = datetime.utcnow().isoformat()
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
@@ -50,7 +50,7 @@ def format_for_logstash(contract_data, contract_details, creation_date, transact
     #build log event payload
     log_entry = {
         "timestamp": timestamp,
-        "contract_address": contract_data.get("contractAddress"),
+        "contract_address": contract_creator,
         "creator_address": contract_data.get("creatorAddress"),
         "abi": contract_details.get("result"),
         "function_calls": contract_data.get("functionCalls"),  # You can customize this further
@@ -116,7 +116,7 @@ def get_bad_addresses():
     return bad_addresses
 
 # Function to assess risk of returned contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
-def assess_risk(contract_data, contract_details, contract_creation_date, transaction_count):
+def assess_risk(contract_data, contract_details, contract_creator, contract_creation_date, transaction_count):
 
     print("Completing risk assessment...")
     
@@ -129,7 +129,7 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     # Extract relevant data
     abi = contract_details.get("result", "")
     creator_address = contract_data.get("creatorAddress", "")
-    creator_address = contract_data['address']
+    creator_address = contract_creator
     print("Creator address: ",contract_data)
     contract_address = contract_data.get("contractAddress", "")
     source_code = contract_details.get("sourceCode", "")
@@ -214,7 +214,7 @@ def main():
         transaction_count = get_transaction_count(contract_address)
         
         # Format the data for Logstash
-        #logstash_data = format_for_logstash(contract, contract_details, creation_date, transaction_count)
+        logstash_data = format_for_logstash(contract, contract_details, contract_creator, creation_date, transaction_count)
         
         # Send to Logstash for indexing into ElasticSearch
         #status_code = send_to_logstash(logstash_data)
