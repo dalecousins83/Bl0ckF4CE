@@ -101,6 +101,7 @@ def get_bad_addresses():
     print("Building address blacklist...")
     url = f"https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/refs/heads/master/src/addresses/addresses-darklist.json"
     response = requests.get(url)
+    global bad_addresses
     bad_addresses = response.json()
     return bad_addresses
 
