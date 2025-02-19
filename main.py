@@ -166,7 +166,7 @@ def assess_risk(contract_data, contract_details, contract_creator, contract_crea
         #risk_reason = "Source code not verified"
         
         # Risk assessment based on contract age and transactions
-        contract_creation_date = contract_creation_date.replace(tzinfo=tz('UTC'))
+        #contract_creation_date = contract_creation_date.replace(tzinfo=tz('UTC'))
         contract_age_days = (current_time - contract_creation_date).days
         if contract_age_days < 30:  # Newly deployed contracts without code
             risk_score = "high"
