@@ -12,6 +12,9 @@ BASE_URL = 'https://api.etherscan.io/v2/api?chainid=1'
 
 FACTORY_ADDRESS = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"  # Uniswap V2 Factory
 
+# Bad address list placeholder
+bad_addresses = []
+
 # Function to fetch newly deployed contracts
 def fetch_new_contracts(start_block=0, end_block='latest'):
     print("Fetching new contracts...")
@@ -170,7 +173,6 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
 def main():
     print("Running main()")
     # Build address blacklist for risk assessment
-    bad_addresses = []
     get_bad_addresses()
     
     # Fetch newly deployed contracts (example block range)
