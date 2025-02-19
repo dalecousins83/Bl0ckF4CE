@@ -93,7 +93,7 @@ def get_transaction_count(address):
         print("No transactions found for contract ",address)
         return None  # In case no data is found or error
 
-# Functoin to build address blacklist
+# Function to build address blacklist
 def get_bad_addresses():
 
     url = f"https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/refs/heads/master/src/addresses/addresses-darklist.json"
@@ -133,6 +133,7 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     # 2 Creator Address Analysis (simplified example)
     # known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
     for bad_address in bad_addresses:
+        printf("Checking creator address (",creator_address," against ",bad_address)
         if creator_address == bad_address['address']:
             #return "high"
             risk_score = "High"
@@ -166,6 +167,9 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
 # Main function to orchestrate data fetching and processing
 def main():
     print("Running main()")
+    # Build address blacklist for risk assessment
+    get_bad_addresses()
+    
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
 
