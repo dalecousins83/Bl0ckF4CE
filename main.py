@@ -47,6 +47,13 @@ def format_for_logstash(contract_data, contract_details, contract_creator, creat
     #oldTimestamp = datetime.utcnow().isoformat()
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
 
+    # Convert ABI string into JSON
+    try:
+        abi_string = contract_details.get("result", "[]")  # Default to empty list if no ABI
+        abi = json.loads(abi_string)  # Convert string to JSON object
+    except json.JSONDecodeError:
+        abi = []  # Fallback in case of error
+    
     #build log event payload
     log_entry = {
         "timestamp": timestamp,
