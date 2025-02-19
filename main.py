@@ -133,8 +133,8 @@ def assess_risk(contract_data, contract_details, contract_creator, contract_crea
     creator_address = contract_creator
     contract_address = contract_data.get("contractAddress", "")
     source_code = contract_details.get("sourceCode", "")
-    current_time = datetime.utcnow()
-    #current_time = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S')
+    #current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc)
 
     # 1 ABI Analysis
     if abi:
