@@ -179,13 +179,11 @@ def main():
     print("Running main()")
     # Build address blacklist for risk assessment
     get_bad_addresses()
-    print("Got bad address list...")
+    print("Got list of known bad addresses...")
     #print(bad_addresses)
     
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
-
-    #print(contracts_data)
     
     for contract in contracts_data['result']:
         contract_address = contract['address']
@@ -193,7 +191,7 @@ def main():
         # Fetch additional contract details (e.g., ABI, function calls)
         print("Fetching contract details for ",contract_address)
         contract_details = fetch_contract_details(contract_address)
-        #print("CONTRACT DETAILS: ", contract_details)
+        print("CONTRACT DETAILS: ", contract_details)
 
         # Fetch the contract creation date (deployment date)
         creation_date = get_creation_date(contract_address)
