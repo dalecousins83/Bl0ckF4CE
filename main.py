@@ -35,7 +35,7 @@ def get_creator_address(contract_address):
     response = requests.get(url).json()
     if "result" in response and response["result"]:
         contract_creator_addr = response["result"][0]["contractCreator"]
-        print("Contract creator address - ",contract_creator_addr)
+        print("Contract creator address:",contract_creator_addr)
         return contract_creator_addr
     return None  # Return None if no creator address is found
 
@@ -85,7 +85,7 @@ def get_creation_date(contract_address):
         creation_tx = data["result"][0]
         timestamp = int(creation_tx["timeStamp"])
         creation_date = datetime.utcfromtimestamp(timestamp)
-        print("Contract ",contract_address," created on ",creation_date)
+        print("Contract",contract_address,"created on",creation_date)
         return creation_date
     else:
         return None  # In case no data is found or error
@@ -101,7 +101,7 @@ def get_transaction_count(address):
     # Check if we got a valid response
     if "result" in data:
         tx_count = int(data["result"], 16)  # Convert hex to int
-        print("Contract ",address," transaction count is ",tx_count)
+        print("Contract",address,"transaction count is",tx_count)
         return tx_count
     else:
         print("No transactions found for contract ",address)
@@ -199,12 +199,11 @@ def main():
         contract_address = contract['address']
         
         # Fetch additional contract details (e.g., ABI, function calls)
-        print("Fetching contract details for ",contract_address)
+        print("Fetching contract details for",contract_address)
         contract_details = fetch_contract_details(contract_address)
         #print("CONTRACT DETAILS: ", contract_details['result'])
 
         # Get contract creator
-        #print("Getting contract creator address")
         contract_creator = get_creator_address(contract_address)
 
         # Fetch the contract creation date (deployment date)
