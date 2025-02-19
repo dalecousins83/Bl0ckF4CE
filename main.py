@@ -98,7 +98,7 @@ def get_transaction_count(address):
 
 # Function to build address blacklist
 def get_bad_addresses():
-
+    print("Building address blacklist...")
     url = f"https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/refs/heads/master/src/addresses/addresses-darklist.json"
     response = requests.get(url)
     bad_addresses = response.json()
@@ -174,6 +174,8 @@ def main():
     print("Running main()")
     # Build address blacklist for risk assessment
     get_bad_addresses()
+    print("Got bad address list...")
+    print(bad_addresses)
     
     # Fetch newly deployed contracts (example block range)
     contracts_data = fetch_new_contracts(start_block=12000000, end_block='latest')
