@@ -29,6 +29,16 @@ def fetch_contract_details(contract_address):
     response = requests.get(url)
     return response.json()
 
+# Function to find contract creator (this doesn't seem to be returned in the contract details
+def get_creator_address(contract_address):
+    url = f"{BASE_URL}&module=contract&action=getcontractcreation&contractaddresses={contract_address}&apikey={ETHERSCAN_API_KEY}"
+    response = requests.get(url).json()
+    if "result" in response and response["result"]:
+        contract_creator_addr = response["result"][0]["contractCreator"]
+        print(contract_creator_addr)
+        reurn contract_creator_addr
+    return None  # Return None if no creator address is found
+
 # Function to format data for Logstash or Elasticsearch
 def format_for_logstash(contract_data, contract_details, creation_date, transaction_count):
     #Get risk score & reason before building log event payload
@@ -192,6 +202,9 @@ def main():
         print("Fetching contract details for ",contract_address)
         contract_details = fetch_contract_details(contract_address)
         print("CONTRACT DETAILS: ", contract_details['result'])
+
+        # Get contract creator
+        contract_creator = get_creator_address(contract_address)
 
         # Fetch the contract creation date (deployment date)
         creation_date = get_creation_date(contract_address)
