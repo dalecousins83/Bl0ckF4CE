@@ -36,7 +36,7 @@ def get_creator_address(contract_address):
     if "result" in response and response["result"]:
         contract_creator_addr = response["result"][0]["contractCreator"]
         print(contract_creator_addr)
-        reurn contract_creator_addr
+        return contract_creator_addr
     return None  # Return None if no creator address is found
 
 # Function to format data for Logstash or Elasticsearch
