@@ -63,6 +63,7 @@ def format_for_logstash(contract_data, contract_details, contract_creator, creat
         "creator_address": contract_creator,
         "abi": abi,
         "abi_functions": get_abi_function_names(abi),
+        "abi_addresses": get_abi_addresses(abi),
         #"risk_score": assess_risk(contract_data, contract_details),
         "risk_score": risk_score,
         "risk_reason": risk_reason,
@@ -127,6 +128,10 @@ def get_bad_addresses():
 # Function to extract function names from contract ABI data
 def get_abi_function_names(abi):
     return [entry["name"] for entry in abi if entry["type"] == "function"]
+
+# Function to extract addresses from contract ABI data
+def get_abi_addresses(abi):
+    return [entry["name"] for entry in abi if entry["type"] == "address"]
 
 # Function to assess risk of returned contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details, contract_creator, contract_creation_date, transaction_count):
