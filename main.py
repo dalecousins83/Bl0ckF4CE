@@ -99,6 +99,7 @@ def get_bad_addresses():
     url = f"https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/refs/heads/master/src/addresses/addresses-darklist.json"
     response = requests.get(url)
     bad_addresses = response.json()
+    return bad_addresses
 
 # Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details, contract_creation_date, transaction_count):
@@ -114,7 +115,8 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     creator_address = contract_data.get("creatorAddress", "")
     contract_address = contract_data.get("contractAddress", "")
     source_code = contract_details.get("sourceCode", "")
-    current_time = datetime.utcnow()
+    #current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
 
     # 1 ABI Analysis
     if abi:
