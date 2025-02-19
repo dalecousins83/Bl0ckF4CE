@@ -35,7 +35,7 @@ def get_creator_address(contract_address):
     response = requests.get(url).json()
     if "result" in response and response["result"]:
         contract_creator_addr = response["result"][0]["contractCreator"]
-        print(contract_creator_addr)
+        print("Contract creator address - ",contract_creator_addr)
         return contract_creator_addr
     return None  # Return None if no creator address is found
 
@@ -130,7 +130,6 @@ def assess_risk(contract_data, contract_details, contract_creator, contract_crea
     abi = contract_details.get("result", "")
     creator_address = contract_data.get("creatorAddress", "")
     creator_address = contract_creator
-    print("Creator address: ",contract_data)
     contract_address = contract_data.get("contractAddress", "")
     source_code = contract_details.get("sourceCode", "")
     current_time = datetime.utcnow()
@@ -201,10 +200,10 @@ def main():
         # Fetch additional contract details (e.g., ABI, function calls)
         print("Fetching contract details for ",contract_address)
         contract_details = fetch_contract_details(contract_address)
-        print("CONTRACT DETAILS: ", contract_details['result'])
+        #print("CONTRACT DETAILS: ", contract_details['result'])
 
         # Get contract creator
-        print("Getting contract creator address")
+        #print("Getting contract creator address")
         contract_creator = get_creator_address(contract_address)
 
         # Fetch the contract creation date (deployment date)
