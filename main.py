@@ -191,7 +191,7 @@ def main():
         # Fetch additional contract details (e.g., ABI, function calls)
         print("Fetching contract details for ",contract_address)
         contract_details = fetch_contract_details(contract_address)
-        print("CONTRACT DETAILS: ", contract_details.keys())
+        print("CONTRACT DETAILS: ", contract_details['result'])
 
         # Fetch the contract creation date (deployment date)
         creation_date = get_creation_date(contract_address)
