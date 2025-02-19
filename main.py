@@ -139,11 +139,11 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
     # 2 Creator Address Analysis (simplified example)
     # known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
     for bad_address in bad_addresses:
-        printf("Checking creator address (",creator_address," against ",bad_address)
+        print(f"Checking creator address (",creator_address," against ",bad_address)
         if creator_address == bad_address['address']:
             #return "high"
             risk_score = "High"
-            risk_reason = f"Known scam address found ({ bad_address['address'] } - { bad_address['comment'] })"
+            risk_reason = f"Known scam address found ({bad_address['address']} - {bad_address['comment']})"
             return [risk_score, risk_reason]
 
     # 3 Unverified Source Code
