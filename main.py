@@ -170,6 +170,7 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
 def main():
     print("Running main()")
     # Build address blacklist for risk assessment
+    bad_addresses = []
     get_bad_addresses()
     
     # Fetch newly deployed contracts (example block range)
