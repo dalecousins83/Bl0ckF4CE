@@ -93,6 +93,13 @@ def get_transaction_count(address):
         print("No transactions found for contract ",address)
         return None  # In case no data is found or error
 
+# Functoin to build address blacklist
+def get_bad_addresses():
+
+    url = f"https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/refs/heads/master/src/addresses/addresses-darklist.json"
+    response = requests.get(url)
+    bad_addresses = response.json()
+
 # Function to assess risk of returnd contract based on its ABI, creator history, and other factors. Returns 'high', 'medium', or 'low'.
 def assess_risk(contract_data, contract_details, contract_creation_date, transaction_count):
     
@@ -124,12 +131,13 @@ def assess_risk(contract_data, contract_details, contract_creation_date, transac
                 risk_reason = "Call, Approve, or transferFrom found in ABI"
 
     # 2 Creator Address Analysis (simplified example)
-    known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
-    if creator_address in known_scam_addresses:
-        #return "high"
-        risk_score = "High"
-        risk_reason = "Known scam address found"
-        return [risk_score, risk_reason]
+    # known_scam_addresses = {"0xScamWallet1", "0xScamWallet2"}  # Replace with actual sources
+    for bad_address in bad_addresses:
+        if creator_address == bad_address['address']:
+            #return "high"
+            risk_score = "High"
+            risk_reason = f"Known scam address found ({ bad_address['address'] } - { bad_address['comment'] })"
+            return [risk_score, risk_reason]
 
     # 3 Unverified Source Code
     if not source_code:
